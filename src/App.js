@@ -1,29 +1,58 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import { Link, Route } from 'react-router-dom';
+import Sorter from './components/Sorter';
+import Searchbar from './components/Searchbar';
+import ChampionGrid from './components/ChampionGrid';
+import Champion from './components/Champion';
+import Header from './components/Header';
 
 function App() {
-	const [champ, setChamp] = useState();
+	const [champNames, setChampNames] = useState([]);
+	const arr = [];
+	const imageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/`;
+
 	useEffect(() => {
 		fetch(
-			'http://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion/Aatrox.json'
+			`http://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion.json`
 		)
 			.then((res) => res.json())
 			.then((res) => {
 				console.log(res);
-				setChamp(res.data.Aatrox.image.full);
+				for (const name in res.data) {
+					arr.push(name);
+				}
+				setChampNames(arr);
 			});
 	}, []);
 	return (
 		<div className='App'>
-			<header className='App-header'></header>
-			<img
-				src='https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt570145160dd39dca/5db05fa8347d1c6baa57be25/RiotX_ChampionList_aatrox.jpg?quality=90'
-				alt=''
+			<Route path='/' exact component={Header} />
+			<Route
+				path='/:champion'
+				render={(routerProps) => <Header match={routerProps.match} />}
 			/>
-			<img
-				src='https://images.contentstack.io/v3/assets/blt731acb42bb3d1659/blt1259276b6d1efa78/5db05fa86e8b0c6d038c5ca2/RiotX_ChampionList_ahri.jpg?quality=90'
-				alt=''
-			/>
+			<Searchbar />
+			<div style={{ display: 'flex' }}>
+				<Route path='/' exact component={Sorter} />
+				<Route
+					path='/'
+					exact
+					render={(routerProps) => (
+						<ChampionGrid
+							champNames={champNames}
+							imageUrl={imageUrl}
+							match={routerProps.match}
+						/>
+					)}
+				/>
+				<Route
+					path='/:champion'
+					render={(routerProps) => (
+						<Champion imageUrl={imageUrl} match={routerProps.match} />
+					)}
+				/>
+			</div>
 		</div>
 	);
 }
