@@ -9,6 +9,7 @@ import Header from './components/Header';
 
 function App() {
 	const [champNames, setChampNames] = useState([]);
+	const [extra, setExtra] = useState([]);
 	const arr = [];
 	const imageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/`;
 
@@ -23,8 +24,10 @@ function App() {
 					arr.push(name);
 				}
 				setChampNames(arr);
+				setExtra(arr);
 			});
 	}, []);
+
 	return (
 		<div className='App'>
 			<Route path='/' exact component={Header} />
@@ -32,7 +35,7 @@ function App() {
 				path='/:champion'
 				render={(routerProps) => <Header match={routerProps.match} />}
 			/>
-			<Searchbar />
+			{/* <Searchbar /> */}
 			<div style={{ display: 'flex' }}>
 				<Route path='/' exact component={Sorter} />
 				<Route
@@ -41,8 +44,10 @@ function App() {
 					render={(routerProps) => (
 						<ChampionGrid
 							champNames={champNames}
+							setChampNames={setChampNames}
 							imageUrl={imageUrl}
 							match={routerProps.match}
+							extra={extra}
 						/>
 					)}
 				/>

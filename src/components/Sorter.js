@@ -10,7 +10,7 @@ const Sorter = () => {
 				marginRight: '20px',
 			}}>
 			<p>Free Champion Rotation</p>
-			<p>Each Lane</p>
+			<p>Each Lanes</p>
 			<p>Most Played</p>
 			<p>Most Banned</p>
 			<p>Win Rate</p>
