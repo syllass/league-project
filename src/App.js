@@ -14,7 +14,7 @@ function App() {
 
 	useEffect(() => {
 		fetch(
-			`http://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion.json`
+			`https://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion.json`
 		)
 			.then((res) => res.json())
 			.then((res) => {

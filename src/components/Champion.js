@@ -32,7 +32,6 @@ const Champion = ({ match, imageUrl }) => {
 			});
 	}, []);
 
-	//AIzaSyCNaJHsL2gatyRK2f0L_21VxvJe7AZ0id4
 	return (
 		<div
 			style={{
