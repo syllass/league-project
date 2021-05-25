@@ -12,15 +12,18 @@ function App() {
 	const arr = [];
 	const imageUrl = `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/`;
 
+	// fetch for all champion data
 	useEffect(() => {
 		fetch(
 			`https://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion.json`
 		)
 			.then((res) => res.json())
 			.then((res) => {
+				//push every champ name into an array
 				for (const name in res.data) {
 					arr.push(name);
 				}
+				//set both pieces of state to the champion name list
 				setChampNames(arr);
 				setExtra(arr);
 			})
@@ -37,6 +40,7 @@ function App() {
 				path='/:champion'
 				render={(routerProps) => <Header match={routerProps.match} />}
 			/>
+			{/* if there was no error, show all champions and images */}
 			{champNames[0] !== 'err' ? (
 				<div style={{ display: 'flex' }}>
 					<Route
@@ -46,7 +50,6 @@ function App() {
 							<Sorter setChampNames={setChampNames} extra={extra} />
 						)}
 					/>
-
 					<Route
 						path='/'
 						exact
@@ -67,6 +70,7 @@ function App() {
 					/>
 				</div>
 			) : (
+				//if there was an error with the fetch, display this message
 				<p>There was an error displaying the champion list</p>
 			)}
 		</div>

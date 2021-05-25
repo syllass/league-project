@@ -2,6 +2,7 @@ import React from 'react';
 import data from '../data.json';
 
 const Sorter = ({ setChampNames, extra }) => {
+	//filter champion list by lane buttons
 	const laneFilter = (lane) => {
 		const filteredState = data.filter((champ) => champ.lane === lane);
 		const finalState = filteredState.map((one) => {
@@ -11,7 +12,9 @@ const Sorter = ({ setChampNames, extra }) => {
 		setChampNames(finalState);
 	};
 
+	//filter champion list by search input
 	const search = (e) => {
+		//had to use an extra piece of state to be able to modify with the filter
 		const filteredState = extra.filter((champ) =>
 			champ.toLowerCase().startsWith(e.target.value.toLowerCase())
 		);

@@ -6,6 +6,7 @@ const Champion = ({ match, imageUrl }) => {
 	const [youtubeId, setYoutubeId] = useState('');
 	const champName = match.params.champion;
 
+	//fetch the champion data that was clicked on
 	useEffect(() => {
 		fetch(
 			`https://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion/${champName}.json`
@@ -19,6 +20,7 @@ const Champion = ({ match, imageUrl }) => {
 			});
 	}, []);
 
+	//fetch the corresponding youtube video for the champion that was clicked on
 	useEffect(() => {
 		fetch(
 			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${champName}%20highlights&key=${process.env.REACT_APP_GOOG_YT_API_KEY}`
@@ -39,6 +41,7 @@ const Champion = ({ match, imageUrl }) => {
 				flexDirection: 'column',
 				justifyContent: 'center',
 			}}>
+			{/* error handling for champ data fetch */}
 			{!details.hasOwnProperty('error') ? (
 				<div
 					style={{
@@ -63,6 +66,7 @@ const Champion = ({ match, imageUrl }) => {
 						display: 'flex',
 						flexDirection: 'column',
 					}}>
+					{/* error handling for youtube video fetch */}
 					{youtubeId !== '-1' ? (
 						<Youtube embedId={youtubeId} />
 					) : (

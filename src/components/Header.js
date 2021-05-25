@@ -4,9 +4,11 @@ import { Link } from 'react-router-dom';
 const Header = ({ match }) => {
 	return (
 		<>
+			{/* display champions name if there is one */}
 			{match.params.champion ? (
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div style={{ display: 'inline', textAlign: 'left' }}>
+						{/* back button */}
 						<Link to='/'>
 							<img
 								style={{ height: '40px', width: '40px' }}
@@ -22,6 +24,7 @@ const Header = ({ match }) => {
 					</>
 				</div>
 			) : (
+				//else display generic title
 				<h1>League of Legends Champions</h1>
 			)}
 		</>
