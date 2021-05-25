@@ -23,7 +23,7 @@ const Champion = ({ match, imageUrl }) => {
 	//fetch the corresponding youtube video for the champion that was clicked on
 	useEffect(() => {
 		fetch(
-			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${champName}%20highlights&key=${process.env.REACT_APP_GOOG_YT_API_KEY}`
+			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=1&q=${champName}%20highlights&key=${process.env.REACT_APP_GOOG_YT_API_KEY}`
 		)
 			.then((res) => res.json())
 			.then((res) => {
@@ -33,7 +33,6 @@ const Champion = ({ match, imageUrl }) => {
 				setYoutubeId('-1');
 			});
 	}, []);
-
 	return (
 		<div
 			style={{
