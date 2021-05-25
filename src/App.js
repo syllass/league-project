@@ -35,9 +35,14 @@ function App() {
 				path='/:champion'
 				render={(routerProps) => <Header match={routerProps.match} />}
 			/>
-			{/* <Searchbar /> */}
 			<div style={{ display: 'flex' }}>
-				<Route path='/' exact component={Sorter} />
+				<Route
+					path='/'
+					exact
+					render={(routerProps) => (
+						<Sorter setChampNames={setChampNames} extra={extra} />
+					)}
+				/>
 				<Route
 					path='/'
 					exact
@@ -47,7 +52,6 @@ function App() {
 							setChampNames={setChampNames}
 							imageUrl={imageUrl}
 							match={routerProps.match}
-							extra={extra}
 						/>
 					)}
 				/>

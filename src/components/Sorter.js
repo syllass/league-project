@@ -1,6 +1,22 @@
 import React from 'react';
+import data from '../data.json';
 
-const Sorter = () => {
+const Sorter = ({ setChampNames, extra }) => {
+	const laneFilter = (lane) => {
+		const filteredState = data.filter((champ) => champ.lane === lane);
+		const finalState = filteredState.map((one) => {
+			return one.name;
+		});
+
+		setChampNames(finalState);
+	};
+
+	const search = (e) => {
+		const filteredState = extra.filter((champ) =>
+			champ.toLowerCase().startsWith(e.target.value.toLowerCase())
+		);
+		setChampNames(filteredState);
+	};
 	return (
 		<div
 			style={{
@@ -8,13 +24,36 @@ const Sorter = () => {
 				maxWidth: '250px',
 				border: '2px solid black',
 				marginRight: '20px',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				backgroundColor: 'darkgray',
+				minHeight: '55vh',
+				position: 'fixed',
 			}}>
-			<p>Free Champion Rotation</p>
-			<p>Each Lanes</p>
-			<p>Most Played</p>
-			<p>Most Banned</p>
-			<p>Win Rate</p>
-			<p>Newest Champs</p>
+			<form>
+				<input
+					type='text'
+					className='inputSearch'
+					onChange={search}
+					placeholder='Search...'
+				/>
+			</form>
+			<button className='sortButton' onClick={() => laneFilter('top')}>
+				Top
+			</button>
+			<button className='sortButton' onClick={() => laneFilter('jg')}>
+				Jungle
+			</button>
+			<button className='sortButton' onClick={() => laneFilter('mid')}>
+				Mid
+			</button>
+			<button className='sortButton' onClick={() => laneFilter('adc')}>
+				Bot
+			</button>
+			<button className='sortButton' onClick={() => laneFilter('sup')}>
+				Support
+			</button>
 		</div>
 	);
 };
