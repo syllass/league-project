@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import Champion from './Champion';
-import { Link, Route } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 const ChampionGrid = ({ champNames, imageUrl }) => {
 	return (

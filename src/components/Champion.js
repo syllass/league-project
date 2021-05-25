@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Youtube from './Youtube';
 
 const Champion = ({ match, imageUrl }) => {
@@ -9,23 +8,27 @@ const Champion = ({ match, imageUrl }) => {
 
 	useEffect(() => {
 		fetch(
-			`http://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion/${champName}.json`
+			`https://ddragon.leagueoflegends.com/cdn/11.10.1/data/en_US/champion/${champName}.json`
 		)
 			.then((res) => res.json())
 			.then((res) => {
-				//console.log(res);
 				setDetails(res.data[match.params.champion]);
+			})
+			.catch(() => {
+				setDetails({ error: '-1' });
 			});
 	}, []);
 
 	useEffect(() => {
 		fetch(
-			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${champName}%20highlights&key=AIzaSyCNaJHsL2gatyRK2f0L_21VxvJe7AZ0id4`
+			`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${champName}%20highlights&key=${process.env.REACT_APP_GOOG_YT_API_KEY}`
 		)
 			.then((res) => res.json())
 			.then((res) => {
-				console.log(res.items);
 				setYoutubeId(res.items[0].id.videoId);
+			})
+			.catch(() => {
+				setYoutubeId('-1');
 			});
 	}, []);
 
@@ -37,28 +40,45 @@ const Champion = ({ match, imageUrl }) => {
 				flexDirection: 'column',
 				justifyContent: 'center',
 			}}>
-			<div
-				style={{
-					height: '40vh',
-					width: '580px',
-					backgroundImage: `url(${imageUrl + champName}_0.jpg`,
-					boxShadow: '0 0 30px 30px rgba(40,44,52,0.98) inset',
-					backgroundRepeat: 'no-repeat',
-					backgroundSize: 'auto 40vh',
-					borderRadius: '20px',
-					margin: '0 auto',
-				}}>
-				{/* <img 
-				className='fade'
-				style={{
-					height: '400px',
-				}}
-				src={imageUrl + champName + '_0.jpg'}
-				alt={champName}
-			/> */}
+			{!details.hasOwnProperty('error') ? (
+				<div
+					style={{
+						height: '40vh',
+						width: '580px',
+						backgroundImage: `url(${imageUrl + champName}_0.jpg`,
+						boxShadow: '0 0 30px 30px rgba(40,44,52,0.98) inset',
+						backgroundRepeat: 'no-repeat',
+						backgroundSize: 'auto 40vh',
+						borderRadius: '20px',
+						margin: '0 auto',
+					}}></div>
+			) : (
+				<p>There was an error loading champion data</p>
+			)}
+
+			<p style={{ textAlign: 'center', fontSize: '25px' }}>{details.title}</p>
+			<div style={{ display: 'flex' }}>
+				<div
+					style={{
+						width: '45vw',
+						display: 'flex',
+						flexDirection: 'column',
+					}}>
+					{youtubeId !== '-1' ? (
+						<Youtube embedId={youtubeId} />
+					) : (
+						<p>There was an error loading the video</p>
+					)}
+				</div>
+				<div
+					style={{
+						width: '45vw',
+						display: 'flex',
+						flexDirection: 'column',
+					}}>
+					<p style={{ fontSize: '22px' }}>{details.lore}</p>
+				</div>
 			</div>
-			<p>{details.lore}</p>
-			<Youtube embedId={youtubeId} />
 		</div>
 	);
 };
